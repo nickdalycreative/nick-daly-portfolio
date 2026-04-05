@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nick Daly â Creative, Scholarly & Institutional Work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ========== RESET ========== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ========== DESIGN TOKENS â ScoreClub-inspired ========== */
+:root {
+  --bg: #FFFFFF;
+  --bg-alt: #F7F5F0;
+  --surface: #FFFFFF;
+  --text: #3A3A3A;
+  --text-mid: #5E5E5E;
+  --text-light: #8A8A8A;
+  --accent: #B0A171;
+  --accent-hover: #9F9564;
+  --accent-dark: #8B7D55;
+  --success: #7E9969;
+  --info: #5CB85C;
+  --nav-dark: #3A3A3A;
+  --nav-dark-text: #D4CFC5;
+  --border: #E0DCD4;
+  --hero-overlay: rgba(30, 25, 18, 0.82);
+
+  --font-heading: 'Roboto', sans-serif;
+  --font-body: 'Noto Sans', sans-serif;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --max-width: 1200px;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font-body); color: var(--text-mid);
+  background: var(--bg); line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading); font-weight: 300;
+  line-height: 1.2; color: var(--text);
+}
+h1 { font-size: clamp(2.2rem, 4.5vw, 3.4rem); letter-spacing: 0.06em; text-transform: uppercase; }
+h2 { font-size: clamp(1.6rem, 3vw, 2.4rem); letter-spacing: 0.03em; }
+h3 { font-size: clamp(1rem, 1.8vw, 1.3rem); font-weight: 400; }
+p { max-width: 65ch; }
+a { color: var(--accent); text-decoration: none; transition: color .2s; }
+a:hover { color: var(--accent-hover); }
+
+.container { max-width: var(--max-width); margin: 0 auto; padding: 0 2rem; }
+.narrow { max-width: 720px; }
+.section { padding: 5rem 0; }
+.section + .section { border-top: 1px solid var(--border); }
+
+/* ========== SCROLL REVEAL ========== */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: .1s; } .reveal-d2 { transition-delay: .2s; }
+.reveal-d3 { transition-delay: .3s; } .reveal-d4 { transition-delay: .4s; }
+
+/* ========== TWO-TIER NAV ========== */
+.nav-primary {
+  background: var(--bg); border-bottom: 1px solid var(--border);
+}
+.nav-primary__inner {
+  display: flex; align-items: center; justify-content: space-between; height: 64px;
+}
+.nav-logo {
+  font-family: var(--font-heading); font-size: 1.4rem; font-weight: 300;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--text);
+}
+.nav-logo:hover { color: var(--accent); }
+.nav-primary__links { display: flex; gap: 1.8rem; list-style: none; }
+.nav-primary__link {
+  font-size: .8rem; font-weight: 500; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--text-light); transition: color .2s;
+}
+.nav-primary__link:hover { color: var(--text); }
+
+.nav-member {
+  background: var(--nav-dark);
+}
+.nav-member__inner {
+  display: flex; align-items: center; justify-content: center; height: 44px; gap: 2.5rem;
+}
+.nav-member__link {
+  font-size: .78rem; font-weight: 500; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--nav-dark-text); transition: color .2s;
+}
+.nav-member__link:hover, .nav-member__link--active { color: #FFFFFF; }
+
+/* Mobile nav */
+.nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+.nav-toggle span { display: block; width: 22px; height: 1.5px; background: var(--text); transition: all .3s ease; }
+
+/* ========== BUTTONS ========== */
+.btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .75rem 2rem; font-family: var(--font-body); font-size: .85rem;
+  font-weight: 600; letter-spacing: .03em; text-transform: uppercase;
+  border: none; border-radius: 24px; cursor: pointer; transition: all .25s ease;
+}
+.btn--gold { background: var(--accent); color: #fff; }
+.btn--gold:hover { background: var(--accent-hover); color: #fff; transform: translateY(-1px); }
+.btn--outline { background: transparent; color: var(--text-mid); border: 1.5px solid var(--border); border-radius: 24px; }
+.btn--outline:hover { border-color: var(--accent); color: var(--accent); }
+.btn--dark { background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.3); border-radius: 24px; }
+.btn--dark:hover { background: rgba(255,255,255,.25); color: #fff; }
+
+/* ========== STATUS BADGES ========== */
+.badge {
+  display: inline-block; padding: 4px 13px; font-size: .7rem;
+  font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+  color: #fff; border-radius: 3px;
+}
+.badge--published { background: var(--success); }
+.badge--ongoing { background: var(--accent); }
+.badge--forthcoming { background: var(--info); }
+.badge--creative { background: #7A8BA8; }
+.badge--research { background: #9B8E7E; }
+.badge--institutional { background: #6B8A7A; }
+
+/* ========== DARK HERO ========== */
+.hero {
+  position: relative; min-height: 380px;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; overflow: hidden;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect fill="%231a1510" width="600" height="400"/><text x="50%25" y="50%25" font-size="300" fill="%23221d16" text-anchor="middle" dominant-baseline="middle" font-family="serif" opacity=".3">âª</text></svg>') center/cover;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(30,25,18,.85) 0%, rgba(40,34,24,.75) 100%);
+}
+.hero__inner { position: relative; z-index: 1; padding: 4rem 2rem; }
+.hero h1 { color: #F5F0E8; text-shadow: 0 2px 20px rgba(0,0,0,.3); }
+.hero p { color: rgba(245,240,232,.7); margin: 1rem auto 0; }
+
+/* ========== EXPANDABLE SECTION ========== */
+.expandable { border: 1px solid var(--border); border-radius: 4px; margin-bottom: 2rem; }
+.expandable__trigger {
+  display: flex; align-items: center; gap: .75rem; width: 100%;
+  padding: 1.2rem 1.5rem; background: var(--bg-alt); border: none;
+  cursor: pointer; font-family: var(--font-heading); font-size: .9rem;
+  font-weight: 400; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--accent); transition: background .2s;
+}
+.expandable__trigger:hover { background: #EFEAE0; }
+.expandable__icon {
+  font-size: 1.2rem; font-weight: 300; transition: transform .3s var(--ease);
+}
+.expandable__trigger.open .expandable__icon { transform: rotate(45deg); }
+.expandable__content {
+  max-height: 0; overflow: hidden; transition: max-height .4s var(--ease), padding .4s var(--ease);
+}
+.expandable__content.open { max-height: 600px; padding: 1.5rem; }
+.expandable__content p { font-size: .95rem; margin-bottom: 1rem; }
+.expandable__content p:last-child { margin-bottom: 0; }
+
+/* ========== PROJECT CARDS (ScoreClub-style) ========== */
+.card-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+}
+.project-card {
+  border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+  background: var(--surface); transition: border-color .3s ease, transform .3s var(--ease);
+}
+.project-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+.project-card__image {
+  position: relative; aspect-ratio: 16/10; overflow: hidden;
+  background: linear-gradient(135deg, #2C2418, #3A3A3A);
+  display: flex; align-items: center; justify-content: center;
+}
+.project-card__image-text {
+  font-family: var(--font-heading); font-weight: 300; font-size: 1.1rem;
+  letter-spacing: .08em; text-transform: uppercase; color: rgba(245,240,232,.85);
+  text-align: center; padding: 1rem; line-height: 1.4;
+}
+.project-card__badge { position: absolute; top: 12px; left: 12px; }
+
+.project-card__body { padding: 1.5rem; }
+.project-card__title {
+  font-size: 1rem; font-weight: 400; letter-spacing: .02em;
+  text-transform: uppercase; margin-bottom: .75rem;
+}
+.project-card__title a { color: var(--text); }
+.project-card__title a:hover { color: var(--accent); }
+.project-card__desc { font-size: .88rem; line-height: 1.65; margin-bottom: 1.25rem; }
+.project-card__meta {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 1rem; border-top: 1px solid var(--border);
+}
+.project-card__year { font-size: .75rem; color: var(--text-light); letter-spacing: .04em; }
+.project-card__link {
+  font-size: .78rem; font-weight: 600; letter-spacing: .03em;
+  text-transform: uppercase; color: var(--accent);
+}
+.project-card__link:hover { color: var(--accent-dark); }
+
+/* ========== PUBLICATIONS LIST ========== */
+.pub-list { list-style: none; }
+.pub-item { padding: 2rem 0; border-bottom: 1px solid var(--border); }
+.pub-item:first-child { padding-top: 0; }
+.pub-item__meta { display: flex; align-items: center; gap: .75rem; margin-bottom: .5rem; }
+.pub-item__year { font-size: .75rem; color: var(--text-light); }
+.pub-item__title { font-size: 1.1rem; font-weight: 400; margin-bottom: .25rem; }
+.pub-item__title a { color: var(--text); } .pub-item__title a:hover { color: var(--accent); }
+.pub-item__venue { font-size: .85rem; font-style: italic; color: var(--text-light); }
+
+/* ========== ABOUT PAGE ========== */
+.about-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; }
+.about-lead { font-family: var(--font-heading); font-size: 1.25rem; font-weight: 300; line-height: 1.6; color: var(--text); margin-bottom: 2rem; }
+.body-text p { margin-bottom: 1.5rem; font-size: 1rem; }
+.sidebar-cards { display: flex; flex-direction: column; gap: 1.25rem; }
+.sidebar-card {
+  padding: 1.5rem; background: var(--bg-alt);
+  border: 1px solid var(--border); border-radius: 4px;
+}
+.sidebar-card h3 {
+  font-size: .75rem; font-family: var(--font-body); font-weight: 600;
+  text-transform: uppercase; letter-spacing: .06em; color: var(--text-light);
+  margin-bottom: .75rem;
+}
+.sidebar-card ul { list-style: none; }
+.sidebar-card li {
+  padding: .3rem 0; font-size: .9rem; color: var(--text-mid);
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-card li:last-child { border-bottom: none; }
+
+/* ========== CONTACT ========== */
+.contact-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; }
+.form-group { margin-bottom: 1.5rem; }
+.form-group label {
+  display: block; font-size: .75rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--text-light); margin-bottom: .5rem;
+}
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: .8rem 1rem; font-family: var(--font-body); font-size: .9rem;
+  color: var(--text); background: var(--surface);
+  border: 1.5px solid var(--border); border-radius: 3px; transition: border-color .2s;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  outline: none; border-color: var(--accent);
+}
+.form-group textarea { resize: vertical; }
+.info-sidebar { display: flex; flex-direction: column; gap: 1.25rem; }
+.info-card {
+  padding: 1.5rem; background: var(--bg-alt);
+  border: 1px solid var(--border); border-radius: 4px;
+}
+.info-card h3 {
+  font-size: .75rem; font-family: var(--font-body); font-weight: 600;
+  text-transform: uppercase; letter-spacing: .06em; color: var(--text-light);
+  margin-bottom: .75rem;
+}
+.info-card a, .info-card p { font-size: .9rem; }
+.social-links { display: flex; flex-direction: column; gap: .4rem; }
+
+/* ========== DISCIPLINES ========== */
+.disc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+.disc-card {
+  padding: 2rem; background: var(--bg-alt);
+  border: 1px solid var(--border); border-radius: 4px;
+  transition: border-color .3s ease, transform .3s var(--ease);
+}
+.disc-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+.disc-card h3 { margin-bottom: .75rem; text-transform: uppercase; letter-spacing: .04em; font-size: .95rem; }
+.disc-card p { font-size: .88rem; }
+
+/* ========== CTA BAND ========== */
+.cta-band {
+  position: relative; padding: 5rem 0; text-align: center; overflow: hidden;
+  background: var(--nav-dark);
+}
+.cta-band h2 { color: #F5F0E8; }
+.cta-band p { color: rgba(245,240,232,.6); margin: 1rem auto 0; }
+
+/* ========== QUOTE BLOCK ========== */
+.quote-block {
+  padding: 2.5rem; background: var(--bg-alt);
+  border-left: 3px solid var(--accent); border-radius: 0 4px 4px 0;
+}
+.quote-block blockquote {
+  font-family: var(--font-heading); font-size: 1.2rem; font-weight: 300;
+  line-height: 1.6; color: var(--text); font-style: italic;
+}
+
+/* ========== SECTION HEADER ========== */
+.section-header { margin-bottom: 3rem; }
+
+/* ========== FOOTER ========== */
+.footer { border-top: 1px solid var(--border); padding: 2.5rem 0; }
+.footer__inner { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 2rem; }
+.footer__name { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 300; letter-spacing: .08em; text-transform: uppercase; color: var(--text); }
+.footer__tagline { font-size: .8rem; color: var(--text-light); margin-top: .25rem; }
+.footer__copy { font-size: .75rem; color: var(--text-light); }
+
+/* ========== PAGES ========== */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .section { padding: 3.5rem 0; }
+  .container { padding: 0 1.25rem; }
+  .nav-toggle { display: flex; }
+  .nav-primary__links {
+    position: fixed; top: 64px; left: 0; right: 0;
+    flex-direction: column; align-items: center; gap: 1.5rem;
+    padding: 2.5rem 0; background: var(--bg); border-bottom: 1px solid var(--border);
+    transform: translateY(-120%); opacity: 0; transition: all .4s var(--ease); z-index: 50;
+  }
+  .nav-primary__links.open { transform: translateY(0); opacity: 1; }
+  .nav-member__inner { flex-wrap: wrap; height: auto; padding: .75rem 1rem; gap: 1rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .disc-grid { grid-template-columns: 1fr; }
+  .footer__inner { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- ========== PRIMARY NAV (public / branding) ========== -->
+<nav class="nav-primary" style="position:sticky;top:0;z-index:100">
+  <div class="nav-primary__inner container">
+    <a href="#" class="nav-logo" data-page="home">Nick Daly</a>
+    <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    <ul class="nav-primary__links">
+      <li><a href="#" class="nav-primary__link" data-page="home">Home</a></li>
+      <li><a href="#" class="nav-primary__link" data-page="about">About</a></li>
+      <li><a href="#" class="nav-primary__link" data-page="publications">Publications</a></li>
+      <li><a href="#" class="nav-primary__link" data-page="contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ========== MEMBER NAV (internal / work) ========== -->
+<nav class="nav-member">
+  <div class="nav-member__inner container">
+    <a href="#" class="nav-member__link nav-member__link--active" data-page="home">Dashboard</a>
+    <a href="#" class="nav-member__link" data-page="work">Work</a>
+    <a href="#" class="nav-member__link" data-page="publications">Publications</a>
+    <a href="#" class="nav-member__link" data-page="cv">CV</a>
+  </div>
+</nav>
+
+<!-- ==================== HOME ==================== -->
+<div class="page active" id="home">
+
+  <!-- Dark Hero -->
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="reveal">Nick Daly</h1>
+      <p class="reveal reveal-d1" style="font-size:1.05rem;max-width:45ch;letter-spacing:.03em">Creative, Scholarly & Institutional Work</p>
+      <div style="margin-top:2rem" class="reveal reveal-d2">
+        <a href="#" class="btn btn--gold" data-page="work">View Latest Work</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Expandable guide -->
+  <section class="section" style="padding-bottom:2rem">
+    <div class="container">
+      <div class="expandable reveal">
+        <button class="expandable__trigger" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+          <span class="expandable__icon">+</span>
+          About This Portfolio
+        </button>
+        <div class="expandable__content">
+          <p>This site collects my work across three interrelated areas of practice: creative projects, scholarly research, and institutional strategy. You can browse by project on the Work page, or by publication on the Publications page.</p>
+          <p>Projects marked <span class="badge badge--ongoing" style="font-size:.65rem">Ongoing</span> are active. Those marked <span class="badge badge--published" style="font-size:.65rem">Published</span> are complete with links to the work. Items marked <span class="badge badge--forthcoming" style="font-size:.65rem">Forthcoming</span> are in progress or under review.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Selected Work Cards -->
+  <section class="section" style="padding-top:1rem">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Selected Work</h2>
+      </div>
+      <div class="card-grid">
+        <article class="project-card reveal">
+          <div class="project-card__image" style="background:linear-gradient(135deg,#2C2418,#4A3F30)">
+            <div class="project-card__badge"><span class="badge badge--ongoing">Ongoing</span></div>
+            <div class="project-card__image-text">Cultural Memory &<br>Digital Archives</div>
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title"><a href="#">Cultural Memory & Digital Archives</a></h3>
+            <p class="project-card__desc">An interdisciplinary investigation into how digital archives reshape collective memory and cultural heritage preservation in the twenty-first century.</p>
+            <div class="project-card__meta">
+              <span class="project-card__year">2025</span>
+              <a href="#" class="project-card__link" data-page="work">View Project â</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal reveal-d1">
+          <div class="project-card__image" style="background:linear-gradient(135deg,#1E2A20,#3A4A3C)">
+            <div class="project-card__badge"><span class="badge badge--published">Published</span></div>
+            <div class="project-card__image-text">Institutional<br>Futures</div>
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title"><a href="#">Institutional Futures</a></h3>
+            <p class="project-card__desc">A multimedia project examining the evolving role of cultural institutions and their relationship to publics, access, and knowledge production.</p>
+            <div class="project-card__meta">
+              <span class="project-card__year">2024</span>
+              <a href="#" class="project-card__link" data-page="work">View Project â</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal reveal-d2">
+          <div class="project-card__image" style="background:linear-gradient(135deg,#2A2030,#4A3A5A)">
+            <div class="project-card__badge"><span class="badge badge--published">Published</span></div>
+            <div class="project-card__image-text">The Practice<br>of Looking</div>
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title"><a href="#">The Practice of Looking</a></h3>
+            <p class="project-card__desc">Published essay exploring visual culture, spectatorship, and the politics of attention in contemporary media environments.</p>
+            <div class="project-card__meta">
+              <span class="project-card__year">2024</span>
+              <a href="#" class="project-card__link" data-page="work">View Project â</a>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div style="text-align:center;margin-top:3rem" class="reveal">
+        <a href="#" class="btn btn--outline" data-page="work">View All Projects â</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Teaser -->
+  <section class="section">
+    <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center">
+      <div class="reveal">
+        <h2 style="margin-bottom:1.5rem">Bridging creative practice and critical thought</h2>
+        <p style="font-size:1rem">I work across disciplines â from cultural research and curatorial projects to institutional strategy and public scholarship. My practice is rooted in a belief that creative and intellectual work can generate new forms of understanding, connection, and institutional change.</p>
+        <a href="#" class="btn btn--outline" data-page="about" style="margin-top:2rem">Read More â</a>
+      </div>
+      <div class="reveal reveal-d2">
+        <div class="quote-block">
+          <blockquote>"The work is always at the intersection â where ideas meet institutions, where research meets practice."</blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Disciplines -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal"><h2>Areas of Focus</h2></div>
+      <div class="disc-grid">
+        <div class="disc-card reveal"><h3>Creative Work</h3><p>Multimedia projects, curatorial endeavors, and artistic collaborations that engage with contemporary culture and public life.</p></div>
+        <div class="disc-card reveal reveal-d1"><h3>Scholarly Research</h3><p>Critical inquiry into visual culture, institutional theory, digital humanities, and the intersections of knowledge and power.</p></div>
+        <div class="disc-card reveal reveal-d2"><h3>Institutional Practice</h3><p>Strategic work with cultural organizations, universities, and public institutions focused on access, equity, and innovation.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band">
+    <div class="container reveal">
+      <h2>Let's work together</h2>
+      <p style="font-size:1.05rem">Interested in collaboration, speaking, or institutional consulting?</p>
+      <a href="#" class="btn btn--gold" data-page="contact" style="margin-top:2rem">Get in Touch</a>
+    </div>
+  </section>
+</div>
+
+<!-- ==================== ABOUT ==================== -->
+<div class="page" id="about">
+  <header class="hero" style="min-height:280px"><div class="hero__inner"><h1 class="reveal">About</h1></div></header>
+  <section class="section">
+    <div class="container about-grid">
+      <div class="body-text reveal">
+        <p class="about-lead">I am a researcher, creative practitioner, and institutional strategist working at the intersections of culture, scholarship, and public life.</p>
+        <p>My work spans academic research, curatorial projects, multimedia production, and institutional consulting. I'm driven by a commitment to making knowledge accessible and meaningful across diverse publics, and by the belief that creative and intellectual practices can generate genuine institutional transformation.</p>
+        <p>Over the years, I've collaborated with cultural organizations, universities, and public institutions on projects that range from digital archive design to public scholarship initiatives and strategic planning.</p>
+        <p>My scholarly work engages with visual culture, institutional theory, digital humanities, and the politics of knowledge production. I'm particularly interested in how cultural institutions can become more responsive, equitable, and innovative.</p>
+      </div>
+      <aside class="sidebar-cards reveal reveal-d2">
+        <div class="sidebar-card"><h3>Education</h3><ul><li>Ph.D., [Your University]</li><li>M.A., [Your University]</li><li>B.A., [Your University]</li></ul></div>
+        <div class="sidebar-card"><h3>Affiliations</h3><ul><li>[Institution or Organization]</li><li>[Institution or Organization]</li></ul></div>
+        <div class="sidebar-card"><h3>Interests</h3><ul><li>Visual Culture</li><li>Digital Humanities</li><li>Institutional Theory</li><li>Public Scholarship</li></ul></div>
+      </aside>
+    </div>
+  </section>
+  <section class="cta-band">
+    <div class="container reveal">
+      <h2>Curriculum Vitae</h2>
+      <p>For a full record of publications, presentations, and professional activities.</p>
+      <a href="#" class="btn btn--gold" style="margin-top:2rem">Download CV (PDF)</a>
+    </div>
+  </section>
+</div>
+
+<!-- ==================== WORK ==================== -->
+<div class="page" id="work">
+  <header class="hero" style="min-height:280px">
+    <div class="hero__inner">
+      <h1 class="reveal">Projects & Practice</h1>
+      <p class="reveal reveal-d1" style="max-width:50ch">A selection of creative, scholarly, and institutional projects bridging disciplines and engaging publics.</p>
+    </div>
+  </header>
+
+  <!-- Expandable guide -->
+  <section class="section" style="padding-bottom:1rem">
+    <div class="container">
+      <div class="expandable reveal">
+        <button class="expandable__trigger" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+          <span class="expandable__icon">+</span>
+          How to Navigate This Work
+        </button>
+        <div class="expandable__content">
+          <p>Projects are organized by status. <span class="badge badge--ongoing" style="font-size:.65rem">Ongoing</span> projects are active areas of research or creation. <span class="badge badge--published" style="font-size:.65rem">Published</span> work includes completed projects with links. <span class="badge badge--forthcoming" style="font-size:.65rem">Forthcoming</span> items are in development.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:1rem">
+    <div class="container">
+      <div class="card-grid">
+        <article class="project-card reveal">
+          <div class="project-card__image" style="background:linear-gradient(135deg,#2C2418,#4A3F30)">
+            <div class="project-card__badge"><span class="badge badge--ongoing">Ongoing</span></div>
+            <div class="project-card__image-text">Cultural Memory &<br>Digital Archives</div>
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title"><a href="#">Cultural Memory & Digital Archives</a></h3>
+            <p class="project-card__desc">An interdisciplinary investigation into how digital archives reshape collective memory and cultural heritage preservation.</p>
+            <div class="project-card__meta"><span class="project-card__year">2025 Â· Research</span><a href="#" class="project-card__link">View â</a></div>
+          </div>
+        </article>
+
+        <article class="project-card reveal reveal-d1">
+          <div class="project-card__image" style="background:linear-gradient(135deg,#1E2A20,#3A4A3C)">
+            <div class="project-card__badge"><span class="badge badge--published">Published</span></div>
+            <div class="project-card__image-text">Institutional<br>Futures</div>
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title"><a href="#">Institutional Futures</a></h3>
+            <p class="project-card__desc">A multimedia project examining the evolving role of cultural institutions and their relationship to publics and knowledge production.</p>
+            <div class="project-card__meta"><span class="project-card__year">2024 Â· Creative</span><a href="#" class="project-card__link">View â</a></div>
+          </div>
+        </article>
+
+        <article class="project-card reveal reveal-d2">
+          <div class="project-card__image" style="background:linear-gradient(135deg,#2A2030,#4A3A5A)">
+            <div class="project-card__badge"><span class="badge badge--published">Published</span></div>
+            <div class="project-card__image-text">The Practice<br>of Looking</div>
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title"><a href="#">The Practice of Looking</a></h3>
+            <p class="project-card__desc">Published essay exploring visual culture, spectatorship, and the politics of attention in contemporary media environments.</p>
+            <div class="project-card__meta"><span class="project-card__year">2024 Â· Research</span><a href="#" class="project-card__link">View â</a></div>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-card__image" style="background:linear-gradient(135deg,#1A2530,#2A3A4A)">
+            <div class="project-card__badge"><span class="badge badge--published">Published</span></div>
+            <div class="project-card__image-text">Equity<br>in Access</div>
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title"><a href="#">Equity in Access</a></h3>
+            <p class="project-card__desc">Strategic consulting engagement with a major cultural institution on developing equitable access frameworks for digital collections.</p>
+            <div class="project-card__meta"><span class="project-card__year">2023 Â· Institutional</span><a href="#" class="project-card__link">View â</a></div>
+          </div>
+        </article>
+
+        <article class="project-card reveal reveal-d1">
+          <div class="project-card__image" style="background:linear-gradient(135deg,#302820,#4A4030)">
+            <div class="project-card__badge"><span class="badge badge--published">Published</span></div>
+            <div class="project-card__image-text">Material<br>Encounters</div>
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title"><a href="#">Material Encounters</a></h3>
+            <p class="project-card__desc">Curatorial project exploring the relationship between physical and digital materiality in contemporary artistic practice.</p>
+            <div class="project-card__meta"><span class="project-card__year">2023 Â· Creative</span><a href="#" class="project-card__link">View â</a></div>
+          </div>
+        </article>
+
+        <article class="project-card reveal reveal-d2">
+          <div class="project-card__image" style="background:linear-gradient(135deg,#20282C,#3A4248)">
+            <div class="project-card__badge"><span class="badge badge--forthcoming">Forthcoming</span></div>
+            <div class="project-card__image-text">Knowledge<br>Infrastructures</div>
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title"><a href="#">Knowledge Infrastructures</a></h3>
+            <p class="project-card__desc">Research examining how knowledge production is shaped by the technological, institutional, and social infrastructures through which it circulates.</p>
+            <div class="project-card__meta"><span class="project-card__year">2025 Â· Research</span><a href="#" class="project-card__link">View â</a></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ==================== PUBLICATIONS ==================== -->
+<div class="page" id="publications">
+  <header class="hero" style="min-height:280px">
+    <div class="hero__inner">
+      <h1 class="reveal">Writing & Research</h1>
+      <p class="reveal reveal-d1" style="max-width:50ch">Selected publications, essays, and book chapters in visual culture, institutional theory, and digital humanities.</p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="container narrow">
+      <ol class="pub-list">
+        <li class="pub-item reveal"><div class="pub-item__meta"><span class="badge badge--published">Published</span><span class="pub-item__year">2024</span></div><h3 class="pub-item__title"><a href="#">The Practice of Looking: Spectatorship and Attention in Digital Culture</a></h3><p class="pub-item__venue">Journal of Visual Culture</p></li>
+        <li class="pub-item reveal reveal-d1"><div class="pub-item__meta"><span class="badge badge--published">Published</span><span class="pub-item__year">2024</span></div><h3 class="pub-item__title"><a href="#">Institutional Futures: Toward Responsive Cultural Organizations</a></h3><p class="pub-item__venue">Public Culture</p></li>
+        <li class="pub-item reveal reveal-d2"><div class="pub-item__meta"><span class="badge badge--forthcoming">Forthcoming</span><span class="pub-item__year">2025</span></div><h3 class="pub-item__title"><a href="#">Digital Archives and the Politics of Memory</a></h3><p class="pub-item__venue">Digital Humanities Quarterly</p></li>
+        <li class="pub-item reveal"><div class="pub-item__meta"><span class="badge badge--published">Published</span><span class="pub-item__year">2023</span></div><h3 class="pub-item__title"><a href="#">Knowledge Infrastructures: A Critical Framework</a></h3><p class="pub-item__venue">Cultural Studies Review</p></li>
+        <li class="pub-item reveal reveal-d1"><div class="pub-item__meta"><span class="badge badge--published">Published</span><span class="pub-item__year">2022</span></div><h3 class="pub-item__title"><a href="#">Equity, Access, and the Museum</a></h3><p class="pub-item__venue">Museum Management and Curatorship</p></li>
+        <li class="pub-item reveal reveal-d2"><div class="pub-item__meta"><span class="badge badge--published">Published</span><span class="pub-item__year">2022</span></div><h3 class="pub-item__title"><a href="#">Material Encounters: On the Curatorial</a></h3><p class="pub-item__venue">Afterall Journal</p></li>
+      </ol>
+    </div>
+  </section>
+</div>
+
+<!-- ==================== CV ==================== -->
+<div class="page" id="cv">
+  <header class="hero" style="min-height:280px"><div class="hero__inner"><h1 class="reveal">Curriculum Vitae</h1></div></header>
+  <section class="section">
+    <div class="container narrow" style="text-align:center">
+      <p class="reveal" style="font-size:1.05rem;margin:0 auto 2rem">A full record of publications, presentations, teaching, and professional activities.</p>
+      <a href="#" class="btn btn--gold reveal reveal-d1">Download CV (PDF)</a>
+    </div>
+  </section>
+</div>
+
+<!-- ==================== CONTACT ==================== -->
+<div class="page" id="contact">
+  <header class="hero" style="min-height:280px">
+    <div class="hero__inner">
+      <h1 class="reveal">Get in Touch</h1>
+      <p class="reveal reveal-d1">Collaboration, speaking, consulting, or just to say hello.</p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="container contact-grid">
+      <form class="reveal" onsubmit="event.preventDefault();alert('Form submitted!')">
+        <div class="form-group"><label for="name">Name</label><input type="text" id="name" required /></div>
+        <div class="form-group"><label for="email">Email</label><input type="email" id="email" required /></div>
+        <div class="form-group"><label for="subject">Subject</label><select id="subject"><option value="">Select a topicâ¦</option><option>Collaboration</option><option>Speaking Engagement</option><option>Institutional Consulting</option><option>General Inquiry</option></select></div>
+        <div class="form-group"><label for="message">Message</label><textarea id="message" rows="6" required></textarea></div>
+        <button type="submit" class="btn btn--gold">Send Message</button>
+      </form>
+      <aside class="info-sidebar reveal reveal-d2">
+        <div class="info-card"><h3>Email</h3><a href="mailto:nick@nickdalycreative.com">nick@nickdalycreative.com</a></div>
+        <div class="info-card"><h3>Location</h3><p>[Your City, State]</p></div>
+        <div class="info-card"><h3>Connect</h3><div class="social-links"><a href="#">LinkedIn</a><a href="#">ORCID</a><a href="#">Google Scholar</a></div></div>
+      </aside>
+    </div>
+  </section>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <div><p class="footer__name">Nick Daly</p><p class="footer__tagline">Creative Â· Scholarly Â· Institutional</p></div>
+    <div><p class="footer__copy">Â© 2026 Nick Daly. All rights reserved.</p></div>
+  </div>
+</footer>
+
+<!-- ========== JS ========== -->
+<script>
+function navigateTo(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById(pageId);
+  if (target) target.classList.add('active');
+
+  // Update member nav active state
+  document.querySelectorAll('.nav-member__link').forEach(l => l.classList.remove('nav-member__link--active'));
+  document.querySelector(`.nav-member__link[data-page="${pageId}"]`)?.classList.add('nav-member__link--active');
+
+  // Close mobile menu
+  document.querySelector('.nav-primary__links')?.classList.remove('open');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  setTimeout(() => {
+    document.querySelectorAll('.page.active .reveal').forEach(el => el.classList.remove('visible'));
+    requestAnimationFrame(initReveal);
+  }, 100);
+}
+
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('[data-page]');
+  if (link) { e.preventDefault(); navigateTo(link.dataset.page); }
+});
+
+document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+  document.querySelector('.nav-primary__links')?.classList.toggle('open');
+});
+
+function initReveal() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.page.active .reveal:not(.visible)').forEach(el => observer.observe(el));
+}
+initReveal();
+</script>
+</body>
+</html>
